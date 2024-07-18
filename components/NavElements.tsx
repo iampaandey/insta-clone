@@ -18,6 +18,7 @@ const NavElements = ({ ImgLink, title }: props): JSX.Element => {
   const pathname: string = usePathname()
 
   const handleClick = (): void => {
+    if(user){
     if (title === "Create") {
       console.log('hh')
       dispatch({
@@ -64,6 +65,7 @@ const NavElements = ({ ImgLink, title }: props): JSX.Element => {
     else {
       router.push('/')
     }
+  }
   }
   return (
     <div className={`nav-element ${state.showNavTitle ? 'wide' : ''} `} onClick={handleClick}>

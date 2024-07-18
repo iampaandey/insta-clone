@@ -9,6 +9,7 @@ export const initialState :initProps = {
   isPosting:false,
   showNavTitle:false,
   showMessageBox:false,
+  loading:false,
   user:[],
   users:[],
   searchFlag:false,

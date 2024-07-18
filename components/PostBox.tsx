@@ -18,7 +18,7 @@ const [val, setVal] = useState<string>("Select from computer")
 
 
 const [caption, setCaption] = useState<string>("")
-const [uri, setUri] = useState<string>()
+const [uri, setUri] = useState<string>("")
 const data: LoggedInUser = GiveData();
 const { isPosting } = state;
 useEffect(():void => {
@@ -54,6 +54,7 @@ const handleClick =  ():void => {
   elem?.focus()
 }
 const handlePost = async ():Promise<void> => {
+  dispatch({type:"setLoading"})
   const formdata: FormData2 = {
     username: us,
     imageUri: uri||"",
@@ -75,7 +76,9 @@ const handlePost = async ():Promise<void> => {
     dispatch({
       type: 'notPosting'
     })
-  }, 3000)
+    dispatch({type:"unSetLoading"})
+  }, 1000)
+  
 
 }
 const handleRandClick = ():void => {
@@ -96,10 +99,9 @@ return (
         <div className="postBox-main">
           <h3 className="create-post-heading">Create new post</h3>
           <hr />
-          <ButtonPrimary buttonValue={val} onclickFun={handleClick} />
+          <ButtonPrimary buttonValue={val}flag={false} onclickFun={handleClick} />
           <InputBox placeText="Write A Captions" type="text" val={caption} setVal={setCaption} />
-          <ButtonPrimary buttonValue="Post" onclickFun={handlePost} />
-
+          <ButtonPrimary buttonValue="Post" flag={uri===""} onclickFun={handlePost} />
           <input type="file" name="fl" id="fl" className="fl" onChange={fileToUrl} />
         </div>
       </div>

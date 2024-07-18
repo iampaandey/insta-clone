@@ -2,12 +2,14 @@
 
 type Props={
     buttonValue:string,
-    onclickFun:()=>void
+    onclickFun:()=>void,
+    flag:boolean
 }
-const ButtonPrimary = ({buttonValue, onclickFun}:Props) => {
+const ButtonPrimary = ({buttonValue, onclickFun, flag}:Props) => {
+  console.log(flag)
   return (
     <div>
-      <button className="buttonprimary" onClick={onclickFun}>{buttonValue}</button>
+      <button className="buttonprimary" disabled={flag} onClick={onclickFun}>{buttonValue}</button>
     </div>
   )
 }

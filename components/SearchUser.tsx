@@ -3,14 +3,15 @@ import { useContext, useEffect, useRef, useState } from "react"
 import UserShareDis from "./UserShareDis";
 import { searchUsers } from "@app/api/api";
 import { AppContext } from "@app/context/MainContext";
+import { AppContextType } from "@Interfaces";
 
 const SearchUser = () => {
     const [recetList, setRecentList] = useState<any[]>([]);
     const [result, setResult] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState<Boolean>(false);
     const [user, setUser] = useState<string>('');
-    const {state,dispatch} = useContext(AppContext)
-    const {searchFlag} = state;
+    const {state,dispatch}:AppContextType= useContext(AppContext)
+    const searchFlag = state?.searchFlag;
     const searchRef=useRef<HTMLDivElement>(null);
 
     const handleClickOutside=(event:MouseEvent)=>{

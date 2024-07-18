@@ -9,14 +9,14 @@ import AlertBox from "./AlertBox";
 
 // import i2 from ''
 
-import {  AppContextType, ErrorRes, FormData, initProps, LoggedInUser } from "@Interfaces";
+import {  AlertType, AppContextType, ErrorRes, FormData, initProps, LoggedInUser } from "@Interfaces";
 
 const Login = ():JSX.Element => {
     const { state, dispatch }:AppContextType = useContext(AppContext);
     const [index, setIndex] = useState<number>(0);
     const [email, setEmail] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
-    const [type, setType] = useState<string>("");
+  
+    const [alert, setAlert] = useState<AlertType>({type:"", message:""})
     const [isAlert, setIsAlert] = useState<boolean>(false);
     const [password, setPassword] = useState<string>("");
     const { isLogin }:initProps = state;
@@ -29,6 +29,14 @@ const Login = ():JSX.Element => {
 
     const handleSubmit = async ():Promise<void> => {
         console.log(email, password);
+        dispatch({type:"setLoading"})
+        if(email==="" || password===""){
+            setIsAlert(true);
+            setAlert({type:"error", message:"Please provide complete data!"})
+            dispatch({type:"unSetLoading"})
+
+            return;
+        }
         const formData: FormData = {
             email, password,
             redirect: false
@@ -40,18 +48,19 @@ const Login = ():JSX.Element => {
         if ("username" in data)
             localStorage.setItem('user', JSON.stringify(data));
         if ("username" in data && data?.username) {
-            setMessage("Logged In !")
-            setType("success")
-            setIsAlert(true)
-            setTimeout(() => {
+         
+            setAlert({type:"success", message:"Logged In!"})
 
                 dispatch({ type: "setLogin" })
-            }, 1000)
+            dispatch({type:"unSetLoading"})
+            
+
         }
         else {
 
-            setMessage("Wrong Credentials")
-            setType("error")
+            setAlert({type:"error", message:"Credentials are not valid"})
+            dispatch({type:"unSetLoading"})
+
         }
         setIsAlert(true)
     }
@@ -69,7 +78,7 @@ const Login = ():JSX.Element => {
     return (
 
         <div className="login-main">
-            {isAlert && <AlertBox type={type} message={message} onClose={() => setIsAlert(false)} />
+            {isAlert && <AlertBox type={alert.type} message={alert.message} onClose={() => setIsAlert(false)} />
             }            <div className="images-section">
                 <img src={"/loginmain.png"} className="loginmainimage" alt="" />
                 <img src={imgArr[index]} className="loginsecondaryimage" alt="" />
@@ -82,7 +91,7 @@ const Login = ():JSX.Element => {
                     <p><b>Password : </b> 1234</p>
                     <InputBox placeText="Phone number,username or email" type="text" val={email} setVal={setEmail} />
                     <InputBox placeText="Password" type="password" val={password} setVal={setPassword} />
-                    <ButtonPrimary buttonValue="Log in" onclickFun={handleSubmit} />
+                    <ButtonPrimary buttonValue="Log in" flag={email==="" && password===""} onclickFun={handleSubmit} />
                     <p className="suggestionHeader">Forgot Password ?</p>
                 </div>
                 <div className="signupop">

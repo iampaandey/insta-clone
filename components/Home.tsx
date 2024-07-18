@@ -15,6 +15,7 @@ const Home = () => {
   const [feed, setFeed] = useState<any>([]);
   const [totalPosts,setTotalPosts]=useState()
   useEffect(() => {
+    dispatch({type:"setLoading"})
     dispatch({ type: 'showNavTitle' })
     const fun = async () => {
       const res = GiveData();
@@ -28,12 +29,17 @@ const Home = () => {
      
       setTotalPosts(obj.length);
     }
+    if(localStorage.getItem("user"))
     fun()
   }, [])
+  
     // console.log(user)
     
     const fetchMore=async ()=>{
+      dispatch({type:"setLoading"})
       const availableData=await getFeed();
+      dispatch({type:"unSetLoading"})
+
       console.log(availableData.length);
       setFeed(feed.concat(availableData));
   
@@ -44,10 +50,11 @@ const Home = () => {
       {isLogin ? <div className='mainn'>
         <div className="main-home">
           <InfiniteScroll dataLength={feed.length} next={fetchMore} hasMore={true} loader={<Spinner/>}>
+          
           <div className="postCards mt-2">
             {
               feed?.map((e: any) => {
-                return <PostCard  likedBy={e?.likedBy} id={e?._id} caption={e?.caption} comment={e?.comment} imageUri={e?.imageUri} likeCount={e?.likeCount} username={e?.username} key={e?._id} />
+                return <PostCard  likedBy={e?.likedBy} id={e?._id} caption={e?.caption} comment={e?.comment} imageUri={e?.imageUri} likeCount={e?.likeCount} username={e?.username} key={e?._id + e?.caption} />
               })
             }
           </div>

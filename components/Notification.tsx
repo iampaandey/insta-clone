@@ -5,7 +5,8 @@ import { AppContext } from "@app/context/MainContext"
 
 const Notification = () => {
     const {state,dispatch} = useContext(AppContext)
-    const {notiFlag} = state;
+    console.log(state)
+    const notiFlag= state?.notiFlag;
     
     const notificationRef=useRef<HTMLDivElement>(null);
     const handleClickOutside = (event:MouseEvent) => {

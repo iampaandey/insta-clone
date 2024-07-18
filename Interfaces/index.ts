@@ -37,10 +37,15 @@ export interface LoggedInUser {
 export interface ErrorRes {
     message: string
 }
+export interface AlertType  {
+    type:string,
+    message:string
+}
 
 type User = any;
 
 export type initProps ={
+    loading:boolean,
     isLogin : boolean,
     isPosting:boolean,
     showNavTitle:boolean,
@@ -84,7 +89,13 @@ export type setUser={
 export type hideNavTitle={
     type:'hideNavTitle',
 }
-export type ActionType = SetLogin | SetPosting | NotPosting | ShowNavTitle | showMessageBox |getUsers  |setUser|hideNavTitle |serachFlag|notiFlag;
+export type SetLoading={
+    type:'setLoading',
+}
+export type UnSetLoading={
+    type:'unSetLoading',
+}
+export type ActionType = UnSetLoading|SetLoading | SetLogin | SetPosting | NotPosting | ShowNavTitle | showMessageBox |getUsers  |setUser|hideNavTitle |serachFlag|notiFlag;
 
 export interface AppContextType{
 state:initProps,
