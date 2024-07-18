@@ -136,9 +136,7 @@ export interface FormData2 extends UsernameArrayType {
     caption: string
 }
 
-export interface Res2 {
-    message: string,
-    status: number
+
 export interface Res2{
     message:string,
     status:number
